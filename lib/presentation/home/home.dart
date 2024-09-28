@@ -32,6 +32,16 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+/*
+
+ PLease note that because this is a simple page i am redirecting
+ all layouts to the HomeWebView where the responcive is checked 
+ to avoid code redundancy 
+
+ in case of complex layouts wil shall use diffrent Widgets 
+
+*/
       body: ScreenTypeLayout.builder(
         mobile: (_) => const HomeWebView(),
         tablet: (_) => const HomeWebView(),

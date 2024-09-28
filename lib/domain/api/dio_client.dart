@@ -13,15 +13,12 @@ import 'exceptions.dart';
 class DioClient {
   final Dio _dio;
   DioClient(this._dio) {
-    // print("76760769786078078");
     initialiseDio();
   }
   initialiseDio() {
     _dio.options = BaseOptions(
-      
       responseType: ResponseType.json,
       connectTimeout: 8000,
-      // receiveTimeout: 10000,
       contentType: Headers.jsonContentType,
       followRedirects: false,
       validateStatus: (status) {
@@ -48,31 +45,22 @@ class DioClient {
     }
   }
 
-  Future<Response> request(
-      {required EndPoint endPoint,
-      dynamic data,
-      Map<String, dynamic>? queryParams,
-      String urlParams = ""}) async {
+  Future<Response> request({required EndPoint endPoint, dynamic data, Map<String, dynamic>? queryParams, String urlParams = ""}) async {
     late Response response;
-
 
     try {
       switch (endPoint.requestType) {
         case RequestType.get:
-          response = await _dio.get(endPoint.url + urlParams,
-              queryParameters: data ?? queryParams);
+          response = await _dio.get(endPoint.url + urlParams, queryParameters: data ?? queryParams);
           break;
         case RequestType.post:
-          response = await _dio.post(endPoint.url + urlParams,
-              data: data, queryParameters: queryParams);
+          response = await _dio.post(endPoint.url + urlParams, data: data, queryParameters: queryParams);
           break;
         case RequestType.patch:
-          response = await _dio.patch(endPoint.url + urlParams,
-              data: data, queryParameters: queryParams);
+          response = await _dio.patch(endPoint.url + urlParams, data: data, queryParameters: queryParams);
           break;
         case RequestType.put:
-          response = await _dio.put(endPoint.url + urlParams,
-              data: data, queryParameters: queryParams);
+          response = await _dio.put(endPoint.url + urlParams, data: data, queryParameters: queryParams);
           break;
 
         case RequestType.delete:
@@ -91,12 +79,8 @@ class DioClient {
         case DioErrorType.cancel:
           throw FetchDataException('Request Cancelled\n\n${error.message}');
         case DioErrorType.other:
-          String message = error.message.contains('SocketException')
-              ? "No Internet Connection"
-              : "Oops, Something went wrong";
-          kDebugMode
-              ? throw FetchDataException('$message\n\n${error.message}')
-              : throw FetchDataException(message);
+          String message = error.message.contains('SocketException') ? "No Internet Connection" : "Oops, Something went wrong";
+          kDebugMode ? throw FetchDataException('$message\n\n${error.message}') : throw FetchDataException(message);
       }
     }
     return response;
@@ -110,8 +94,7 @@ class ApiResponse<T> {
   ApiResponse.idle() : status = ApiResponseStatus.idle;
   ApiResponse.loading(this.message) : status = ApiResponseStatus.loading;
   ApiResponse.completed(this.data) : status = ApiResponseStatus.completed;
-  ApiResponse.unProcessable(this.message)
-      : status = ApiResponseStatus.unProcessable;
+  ApiResponse.unProcessable(this.message) : status = ApiResponseStatus.unProcessable;
   ApiResponse.error(this.message) : status = ApiResponseStatus.error;
   @override
   String toString() {

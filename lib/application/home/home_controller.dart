@@ -4,13 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../domain/api/dio_client.dart';
-import '../../domain/api/endpoints.dart';
-import '../../domain/api/exceptions.dart';
 import '../../domain/dependency_injection/injectable.dart';
 import '../../domain/models/search_result_model/search_result_model.dart';
 import '../../infrastructure/image_search_repo.dart/i_repo.dart';
-import '../../presentation/home/widgets/webview.dart';
 
 class HomePageController extends GetxController with StateMixin {
   RxBool isLoading = false.obs;
@@ -35,10 +31,8 @@ class HomePageController extends GetxController with StateMixin {
       imageList.value = [];
     }
 
-    // print("jh------------");
-    // log(imageList.value!.first.largeImageURL);
-      await Future.delayed(Durations.extralong4);
-      await Future.delayed(Durations.extralong4);
+    await Future.delayed(Durations.extralong4);
+    await Future.delayed(Durations.extralong4);
     isLoading.value = false;
   }
 
@@ -54,9 +48,7 @@ class HomePageController extends GetxController with StateMixin {
       imageList.value = [];
     }
 
-    // print("jh------------");
-    // log(imageList.value!.first.largeImageURL);
-   await Future.delayed(Durations.long4);
+    await Future.delayed(Durations.long4);
     isLoading.value = false;
   }
 }

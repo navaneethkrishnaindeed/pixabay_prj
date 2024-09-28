@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../domain/constants/strings/home.dart';
 import '../../domain/utils/functions.dart';
@@ -18,7 +19,7 @@ class MyWidget extends StatelessWidget {
 class FullScreenImage extends StatelessWidget {
   final String id;
   final String imageUrl;
-  const FullScreenImage({required this.id, required this.imageUrl});
+  const FullScreenImage({super.key, required this.id, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class FullScreenImage extends StatelessWidget {
               Column(
                 children: [
                   SizedBox(
-                    height: ScreenSizes(context).screenHeightFraction(percent: 5),
+                    height: ScreenSizes(context).screenHeightFraction(percent: 8),
                     width: ScreenSizes(context).screenWidth(),
                     child: Row(
                       children: [
@@ -51,11 +52,11 @@ class FullScreenImage extends StatelessWidget {
                               if (context.canPop()) {
                                 context.pop();
                               } else {
-                                // context.go('/home');
+                        
                               }
-                              // GoRouter.of(context).pop();
+                    
                             },
-                            child: Icon(
+                            child:const Icon(
                               Icons.arrow_back_ios_new_rounded,
                               color: Colors.white,
                             )),
@@ -63,8 +64,9 @@ class FullScreenImage extends StatelessWidget {
                     ),
                   ),
                   Text(cleanAndCapitalize(id),
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         color: Colors.white,
+                        letterSpacing: 10,
                         fontSize: context.isPhone ? 20 : 50,
                       )),
                   SizedBox(
@@ -74,7 +76,9 @@ class FullScreenImage extends StatelessWidget {
                 ],
               ),
               Center(
-                child: SizedBox(width: ScreenSizes(context).screenWidth(), height: ScreenSizes(context).screenHeightFraction(percent: 70), child: Image.network(imageUrl, fit: BoxFit.contain)),
+                child: SizedBox( height: ScreenSizes(context).screenHeightFraction(percent: 70), child: ClipRRect(
+                  borderRadius: BorderRadius.circular(25),
+                  child: Image.network(imageUrl, fit: BoxFit.contain))),
               ),
             ],
           ),
