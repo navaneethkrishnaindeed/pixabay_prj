@@ -10,9 +10,12 @@ import '../../domain/api/exceptions.dart';
 import '../../domain/dependency_injection/injectable.dart';
 import '../../domain/models/search_result_model/search_result_model.dart';
 import '../../infrastructure/image_search_repo.dart/i_repo.dart';
+import '../../presentation/home/widgets/webview.dart';
 
 class HomePageController extends GetxController with StateMixin {
   RxBool isLoading = false.obs;
+  RxInt pageNum = 1.obs;
+  RxInt currentIndex = 0.obs;
   Rxn<List<SearchResultModel>> imageList = Rxn<List<SearchResultModel>>();
   TextEditingController searchController = TextEditingController();
 
@@ -21,11 +24,12 @@ class HomePageController extends GetxController with StateMixin {
     super.onInit();
   }
 
-  Future<void> getPixabayPcs({required String searchKey}) async {
+  Future<void> getPixabayPcs({required String searchKey, int page = 1}) async {
+    imageList.value = [];
     isLoading.value = true;
     ISearchRepo repo = getIt<ISearchRepo>();
     try {
-      imageList.value = await searchImageDataFromApi(nameOfTheImagetoSearch: searchKey);
+      imageList.value = await repo.searchImageDataFromApi(nameOfTheImagetoSearch: searchKey, page: page);
     } catch (e) {
       log("hhh $e");
       imageList.value = [];
@@ -35,25 +39,22 @@ class HomePageController extends GetxController with StateMixin {
     // log(imageList.value!.first.largeImageURL);
     isLoading.value = false;
   }
-}
 
-searchImageDataFromApi({required String nameOfTheImagetoSearch}) async {
-  DioClient dio = DioClient(Dio());
-
-  try {
-    final response = await dio.request(endPoint: EndPoint.search, queryParams: {"q": nameOfTheImagetoSearch, "image_type": "photo"});
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final datas = (response.data['hits'] as List).map((e) {
-        return SearchResultModel.fromJson(e);
-      }).toList();
-
-      print("hello ${datas[1]}");
-      return datas;
-    } else {
-      throw InternalServerException();
+  Future<void> loadMorePixabayPcs({required String searchKey, int page = 1}) async {
+    isLoading.value = true;
+    ISearchRepo repo = getIt<ISearchRepo>();
+    List<SearchResultModel> data = [];
+    try {
+      data = await repo.searchImageDataFromApi(nameOfTheImagetoSearch: searchKey, page: page);
+      imageList.value!.addAll(data);
+      
+    } catch (e) {
+      log("hhh $e");
+      imageList.value = [];
     }
-  } catch (e) {
-    throw AppException();
+
+    // print("jh------------");
+    // log(imageList.value!.first.largeImageURL);
+    isLoading.value = false;
   }
 }

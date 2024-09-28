@@ -20,7 +20,7 @@ class FullScreenImage extends StatelessWidget {
     // Extract the ID and URL from the route parameters
 
     return Scaffold(
-      appBar: AppBar(title: Text("imageName")),
+      appBar: AppBar(title: Text(id)),
       body: Center(
         child: Image.network(imageUrl, fit: BoxFit.contain),
       ),

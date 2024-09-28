@@ -7,8 +7,8 @@ import '../../presentation/home/home.dart';
 import 'route_names.dart';
 
 class AppRouter {
- static GoRouter appRouter = GoRouter(
-    initialLocation:'/home',
+  static GoRouter appRouter = GoRouter(
+    initialLocation: '/home',
     routes: [
       GoRoute(
         path: RouteNames.home.path,
@@ -18,10 +18,9 @@ class AppRouter {
       GoRoute(
         path: '/image/:id',
         builder: (context, state) {
-    final data = state.extra as Map<String, dynamic>? ?? {};
+          final data = state.extra as Map<String, dynamic>? ?? {};
 
-         
-          return FullScreenImage(imageUrl: data ['url']! ?? "Image Not Found", id: data['id'] ?? "null");
+          return FullScreenImage(imageUrl: data['url']! ?? "Image Not Found", id: data['name'] ?? "null");
         },
       ),
     ],

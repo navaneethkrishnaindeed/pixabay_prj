@@ -10,17 +10,17 @@ import '../../domain/api/dio_client.dart';
 import '../../domain/api/exceptions.dart';
 
 abstract class ISearchRepo {
-  searchImageDataFromApi({required String nameOfTheImagetoSearch});
+  searchImageDataFromApi({required String nameOfTheImagetoSearch, required int page});
 }
 
 @LazySingleton(as: ISearchRepo)
 class SearchImpl implements ISearchRepo {
   @override
-  searchImageDataFromApi({required String nameOfTheImagetoSearch}) async {
+  searchImageDataFromApi({required String nameOfTheImagetoSearch,required int page}) async {
     DioClient dio = DioClient(Dio());
 
     try {
-      final response = await dio.request(endPoint: EndPoint.search, queryParams: {"q": nameOfTheImagetoSearch, "image_type": "photo"});
+      final response = await dio.request(endPoint: EndPoint.search, queryParams: {"q": nameOfTheImagetoSearch, "image_type": "photo","page":page,"per_page":40});
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         
