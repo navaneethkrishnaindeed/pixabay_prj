@@ -8,22 +8,25 @@ import 'route_names.dart';
 
 class AppRouter {
   static GoRouter appRouter = GoRouter(
-    initialLocation: '/home',
+    initialLocation: '/',
     routes: [
       GoRoute(
         path: RouteNames.home.path,
         name: RouteNames.home.name,
         pageBuilder: (context, state) => const MaterialPage(child: Home()),
-      ),
-      GoRoute(
-        path: '/image/:id',
+        routes: [
+           GoRoute(
+        path: 'image/:id',
         builder: (context, state) {
           final data = state.extra as Map<String, dynamic>? ?? {};
 
           return FullScreenImage(imageUrl: data['url']! ?? "Image Not Found", id: data['name'] ?? "null");
         },
       ),
+        ]
+      ),
+     
     ],
-    errorPageBuilder: (context, state) => const MaterialPage(child: ErrorScreen()),
+    // errorPageBuilder: (context, state) => const MaterialPage(child: ErrorScreen()),
   );
 }

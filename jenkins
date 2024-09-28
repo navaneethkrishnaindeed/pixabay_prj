@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+    
+    environment {
+        FLUTTER_HOME = '/path/to/flutter'
+        PATH = "$FLUTTER_HOME/bin:$PATH"
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Flutter Doctor') {
+            steps {
+                sh 'flutter doctor'
+            }
+        }
+        
+        stage('Get Dependencies') {
+            steps {
+                sh 'flutter pub get'
+            }
+        }
+        
+        stage('Build Web') {
+            steps {
+                sh 'flutter build web --release'
+            }
+        }
+        
+        stage('Deploy to GitHub Pages') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        sh """
+                            cd build/web
+                            git init
+                            git config user.email "jenkins@example.com"
+                            git config user.name "Jenkins"
+                            git add .
+                            git commit -m "Deploy web build"
+                            git push --force https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/yourusername/your-repo.git HEAD:gh-pages
+                        """
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

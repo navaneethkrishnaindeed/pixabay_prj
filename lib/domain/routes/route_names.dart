@@ -5,7 +5,7 @@ class RouteNameAndPathContainer {
 }
 
 mixin RouteNames {
-  static RouteNameAndPathContainer home = RouteNameAndPathContainer(name: 'home',path: '/home');
+  static RouteNameAndPathContainer home = RouteNameAndPathContainer(name: 'home',path: '/');
   static RouteNameAndPathContainer errorScreen = RouteNameAndPathContainer(name: 'errorScreen',path: '/error_screen');
 
 }

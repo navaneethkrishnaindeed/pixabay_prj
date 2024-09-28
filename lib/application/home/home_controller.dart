@@ -37,6 +37,8 @@ class HomePageController extends GetxController with StateMixin {
 
     // print("jh------------");
     // log(imageList.value!.first.largeImageURL);
+      await Future.delayed(Durations.extralong4);
+      await Future.delayed(Durations.extralong4);
     isLoading.value = false;
   }
 
@@ -47,7 +49,6 @@ class HomePageController extends GetxController with StateMixin {
     try {
       data = await repo.searchImageDataFromApi(nameOfTheImagetoSearch: searchKey, page: page);
       imageList.value!.addAll(data);
-      
     } catch (e) {
       log("hhh $e");
       imageList.value = [];
@@ -55,6 +56,7 @@ class HomePageController extends GetxController with StateMixin {
 
     // print("jh------------");
     // log(imageList.value!.first.largeImageURL);
+   await Future.delayed(Durations.long4);
     isLoading.value = false;
   }
 }
